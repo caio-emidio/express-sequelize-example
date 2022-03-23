@@ -1,4 +1,4 @@
-import { EmployeeService } from "services/Employee/employee.service";
+import { EmployeeService } from "../services/Employee/employee.service";
 
 const express = require('express');
 

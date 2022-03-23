@@ -1,5 +1,8 @@
+import { AuthenticationService } from "../auth/auth.service";
+
 export function auth (req, res, next) {
-    const isValid = true;
+    const authorizationHeader = req.headers.authorization;
+    const isValid = AuthenticationService.authenticateToken(authorizationHeader);
     if (isValid) {
       next();
     } else {

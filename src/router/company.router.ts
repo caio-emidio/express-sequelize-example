@@ -1,4 +1,4 @@
-import { CompanyWrapper } from "../wrappers/companyWrapper";
+import { CompanyWrapper } from "../wrappers/company.wrapper";
 import { Router } from "express";
 import { auth } from "../middleware/authentication";
 

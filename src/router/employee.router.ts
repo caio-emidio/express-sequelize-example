@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { auth } from "../middleware/authentication";
-import { EmployeeWrapper } from "../wrappers/employeeWrapper";
+import { EmployeeWrapper } from "../wrappers/employee.wrapper";
 
 const router = Router();
 
