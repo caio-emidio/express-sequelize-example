@@ -5,10 +5,10 @@ export class AuthWrapper {
     const username = req.body.username;
     const password = req.body.password;
     if (username === "admin" && password === "admin") {
-      res.send(AuthenticationService.signIn(req.params.username));
+      const token = AuthenticationService.signIn(username);
+      res.json({ access_token: token });
     } else {
       res.status(401).send("Unauthorized");
     }
   }
-
 }

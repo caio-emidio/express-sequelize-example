@@ -7,6 +7,10 @@ export class CompanyWrapper {
     res.send(CompanyService.getCompany(req.params.id));
   }
 
+  public static getCompanies(req: any, res: any) {
+    res.send(CompanyService.getCompanies());
+  }
+
   public static saveCompany(req: any, res: any) {
     res.send(CompanyService.saveCompany(req.body));
   }

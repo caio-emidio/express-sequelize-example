@@ -1,18 +1,18 @@
 const { Sequelize } = require("sequelize");
 export class DatabaseService {
   constructor() {
-    DatabaseService.init();
+    this.init();
   }
 
-  public static sequelize;
+  public sequelize;
 
-  public static init() {
+  public init() {
     const dbInfo = {
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dbName: process.env.DB_NAME,
+      user: process.env.DB_USER || "postgres",
+      password: process.env.DB_PASSWORD || "admin",
+      host: process.env.DB_HOST || "localhost",
+      port: process.env.DB_PORT || 5432,
+      dbName: process.env.DB_NAME || "postgres",
       dialect: "postgres",
     };
     this.sequelize = new Sequelize(
@@ -21,22 +21,23 @@ export class DatabaseService {
       dbInfo.password,
       {
         host: dbInfo.host,
+        port: dbInfo.port,
         dialect: dbInfo.dialect,
       }
     );
   }
 
-  public static async close() {
+  public async close() {
     this.sequelize.close();
   }
 
-  public static async authenticate() {
+  public async authenticate() {
     try {
       await this.sequelize.authenticate();
       console.log("Connection has been established successfully.");
     } catch (error) {
       console.error("Unable to connect to the database:", error);
-      this.close();
+      // this.close();
     }
   }
 }

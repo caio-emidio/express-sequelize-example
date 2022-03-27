@@ -13,7 +13,9 @@ export class CompanyService {
         return testCompany;
     }
 
-    public static getCompanies() {}
+    public static getCompanies() {
+        return [testCompany, testCompany, testCompany];
+    }
 
     public static saveCompany(Company: Company) {
         return Company;

@@ -3,8 +3,12 @@ const jwt = require('jsonwebtoken');
 const secretToken = process.env.TOKEN_SECRET || "secret";
 
 export class AuthenticationService {
-  public static signIn(username: string) {
-    return jwt.sign(username, secretToken, { expiresIn: "1800s" });
+  public static signIn(param: string) {
+    try {
+      return jwt.sign({param}, secretToken, { expiresIn: '1h'});
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   private static verify(token: string) {
