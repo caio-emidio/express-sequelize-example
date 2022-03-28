@@ -1,19 +1,21 @@
-const { Sequelize } = require("sequelize");
+import { Sequelize } from "sequelize";
+
+enum DatabaseType {
+    POSTGRES = "postgres",
+    MYSQL = "mysql",
+    SQLITE = "sqlite",
+    MSSQL = "mssql"
+}
 export class DatabaseService {
-  constructor() {
-    this.init();
-  }
+  public static sequelize;
 
-  public sequelize;
-
-  public init() {
+  public static init() {
     const dbInfo = {
       user: process.env.DB_USER || "postgres",
       password: process.env.DB_PASSWORD || "admin",
       host: process.env.DB_HOST || "localhost",
-      port: process.env.DB_PORT || 5432,
       dbName: process.env.DB_NAME || "postgres",
-      dialect: "postgres",
+      dialect: DatabaseType.POSTGRES,
     };
     this.sequelize = new Sequelize(
       dbInfo.dbName,
@@ -21,17 +23,16 @@ export class DatabaseService {
       dbInfo.password,
       {
         host: dbInfo.host,
-        port: dbInfo.port,
         dialect: dbInfo.dialect,
       }
     );
   }
 
-  public async close() {
+  public static async close() {
     this.sequelize.close();
   }
 
-  public async authenticate() {
+  public static async authenticate() {
     try {
       await this.sequelize.authenticate();
       console.log("Connection has been established successfully.");
@@ -39,5 +40,23 @@ export class DatabaseService {
       console.error("Unable to connect to the database:", error);
       // this.close();
     }
+  }
+
+  public static defineModels() {
+    console.log("Defining models");
+    const models = [
+      require("./models/company.models"),
+      require("./models/employee.models"),
+    ];
+    for (const model of models) {
+      model(this.sequelize);
+    }
+  }
+
+  public static applyExtraSetup() {
+    console.log("Applying extra setup");
+    const { company, employee } = this.sequelize.models;
+
+    employee.belongsTo(company);
   }
 }

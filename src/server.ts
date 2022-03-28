@@ -1,14 +1,17 @@
-import { DatabaseService } from './database/database.service';
-import * as express from 'express';
+import { DatabaseService } from "./database/database.service";
+import * as express from "express";
 import internalRouter from "./router/router";
 const app = express();
 
 const PORT = 8000;
 app.use(express.json());
 app.use(internalRouter);
-const databaseService = new DatabaseService();
-databaseService.authenticate().then(() => {
-  app.listen(PORT, () => {
-  console.log(`Example app listening on PORT ${PORT}`)
-  })
+Promise.all([DatabaseService.init()]).then(() => {
+  DatabaseService.authenticate().then(() => {
+    DatabaseService.defineModels();
+    DatabaseService.applyExtraSetup();
+    app.listen(PORT, () => {
+      console.log(`Example app listening on PORT ${PORT}`);
+    });
+  });
 });

@@ -1,49 +1,30 @@
+import { DatabaseService } from "../../database/database.service";
 import { Employee } from "./employee.interfaces"
-
-const testEmployee = {
-    id: 1,
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@test.com',
-    phone: '123456789',
-    company: 1
-};
 
 export class EmployeeService {
     public static getEmployee(id: number) {
-        return testEmployee;
+        const models = DatabaseService.sequelize.models.employee;
+
+        return models.findOne({ where: { id } });
     }
 
     public static getEmployeeByCompany(company: number) {
-        return [
-            {
-                id: 1,
-                firstName: 'John',
-                lastName: 'Doe',
-                email: 'john.doe@test.com',
-                phone: '123456789',
-                company: 1
-            },
-            {
-                id: 2,
-                firstName: 'Jane',
-                lastName: 'Doe',
-                email: 'jane.doe@test.com',
-                phone: '123456789',
-                company: 1
-            }
-        ]
+        const models = DatabaseService.sequelize.models.employee;
+        return models.findAll({ where: { company } });
     }
 
     public static saveEmployee(employee: Employee) {
-        return employee;
+        const models = DatabaseService.sequelize.models.employee;
+        return models.create(employee);
     }
 
     public static updateEmployee(id: number, employee: Employee) {
-        return employee;
+        const models = DatabaseService.sequelize.models.employee;
+        return models.update(employee, { where: { id } });
     }
 
     public static deleteEmployee(id: number) {
-        return true;
+        const models = DatabaseService.sequelize.models.employee;
+        return models.destroy({ where: { id } });
     }
 }

@@ -1,31 +1,29 @@
+import { DatabaseService } from "../../database/database.service";
 import { Company } from "./company.interfaces";
 
-const testCompany = {
-    id: 1,
-    name: "test company",
-    email: "testcompany@test.com",
-    phone: "1234567689",
-    website: "wwww.testcompany.com",
-} as Company;
-
 export class CompanyService {
-    public static getCompany(id: number) {
-        return testCompany;
-    }
+  public static getCompany(id: number) {
+    const models = DatabaseService.sequelize.models.company;
+    return models.findOne({ where: { id } });
+  }
 
-    public static getCompanies() {
-        return [testCompany, testCompany, testCompany];
-    }
+  public static async getCompanies() {
+    const models = DatabaseService.sequelize.models.company;
+    return models.findAll();
+  }
 
-    public static saveCompany(Company: Company) {
-        return Company;
-    }
+  public static saveCompany(Company: Company) {
+    const models = DatabaseService.sequelize.models.company;
+    return models.create(Company);
+  }
 
-    public static updateCompany(id: number, Company: Company) {
-        return Company;
-    }
+  public static updateCompany(id: number, Company: Company) {
+    const models = DatabaseService.sequelize.models.company;
+    return models.update(Company, { where: { id } });
+  }
 
-    public static deleteCompany(id: number) {
-        return true;
-    }
+  public static deleteCompany(id: number) {
+    const models = DatabaseService.sequelize.models.company;
+    return models.destroy({ where: { id } });
+  }
 }
