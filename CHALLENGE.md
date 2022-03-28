@@ -20,5 +20,3 @@ Only if time permits, here are some extra requirements
   - Document your APIs with Swagger
   - Use Typescript in your project
   - Typescript Sequelize
-
- 
